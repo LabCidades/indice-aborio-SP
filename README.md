@@ -3,8 +3,8 @@ Análise realizada para a live do mestrado em Cidades Inteligentes e Sustentáve
 
 ## Variáveis
 
-* Dependente: Índice de Massa Árboreo
-* Independentes: Renda per Capita, Quantidade de Domicílios, Quantidade de Automóveis e Quantidade de Empregos
+* Dependente: Índice de Massa Árboreo (calculado a partir de imagens de satélite)
+* Independentes: Renda per Capita, Quantidade de Domicílios, Quantidade de Automóveis e Quantidade de Empregos (todos obtidos pela pequisa Origem-Destino de 2017)
 
 ## Análise
 
