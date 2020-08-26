@@ -12,7 +12,7 @@ A técnica empregada é a regressão espacial, também chamada de regressão geo
 
 ## Resultados
 
-![indice_arboreo](images/massa_arborea.png)
+![indice_arboreo](images/massa_aborea.png)
 ![r2_local](images/R2_local.png)
 ![renda_per_cap](images/renda_per_cap.png)
 ![domicilios](images/domicilios.png)
