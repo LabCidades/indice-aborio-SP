@@ -6,8 +6,7 @@ library(rgeos)
 library(tmap)
 library(tmaptools)
 library(spgwr)
-library(grid)
-library(gridExtra)
+library(parallel)
 
 # detect number of CPU cores to go parallel
 no_cores <- detectCores() - 1 # Calculate the number of cores
@@ -25,7 +24,6 @@ df <- df %>%
     indicador_massa_arborea = as.numeric(str_replace(indicador_massa_arborea, ",", "."))
   ) %>% 
   mutate(
-    id = as_factor(id),
     numerozona = as_factor(numerozona),
     numdistrit = as_factor(numdistrit)
   ) %>% 
@@ -43,9 +41,8 @@ distritos <- st_read("SHP/DEINFO_ZONAS_OD_2007.shp")
 Encoding(distritos$NOMEZONA) <- "latin1"
 
 # Join com o SHP
-
 df <- df %>% 
-  inner_join(distritos, by = c("nomedistri" = "NOMEZONA")) %>% 
+  inner_join(distritos, by = c("id" = "ZONA")) %>% 
   st_as_sf
 
 # Geographic Weighted Regression (GWR)
@@ -58,11 +55,21 @@ gwr.model <- gwr(indicador_massa_arborea ~ renda_per_capita + domicilios + autom
 
 # get spatial spatial polygon dataframe from regression results + convert it into sf object. The spatial object brings the regressions results within it's data component
 results <- gwr.model$SDF
-sf <- st_as_sf(sp) 
-gwr.map <- cbind(df, sf)
+gwr.map <- cbind(df, results)
 
 # Plot Stuff
 map0 <- tm_shape(gwr.map) + 
+  tm_fill("indicador_massa_arborea",
+          title="Massa Arbórea",
+          n = 5,
+          style = "quantile") +
+  tm_borders() +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+tmap_save(map0, "images/massa_aborea.png", dpi = 300)
+
+map1 <- tm_shape(gwr.map) + 
   tm_fill("localR2",
           title="R2 Local",
           n = 5,
@@ -71,9 +78,9 @@ map0 <- tm_shape(gwr.map) +
   tm_layout(frame = FALSE,
             legend.text.size = 0.5,
             legend.title.size = 0.6)
-tmap_save(map0, "images/R2_local.png", dpi = 300)
+tmap_save(map1, "images/R2_local.png", dpi = 300)
 
-map1 <- tm_shape(gwr.map) + 
+map2 <- tm_shape(gwr.map) + 
   tm_fill("renda_per_capita",
           title="Renda Per Capita",
           n = 5,
@@ -82,9 +89,9 @@ map1 <- tm_shape(gwr.map) +
   tm_layout(frame = FALSE,
             legend.text.size = 0.5,
             legend.title.size = 0.6)
-tmap_save(map1, "images/renda_per_cap.png", dpi = 300)
+tmap_save(map2, "images/renda_per_cap.png", dpi = 300)
 
-map2 <- tm_shape(gwr.map) + 
+map3 <- tm_shape(gwr.map) + 
   tm_fill("domicilios",
           title="Domicílios",
           n = 5,
@@ -93,9 +100,9 @@ map2 <- tm_shape(gwr.map) +
   tm_layout(frame = FALSE,
             legend.text.size = 0.5,
             legend.title.size = 0.6)
-tmap_save(map2, "images/domicilios.png", dpi = 300)
+tmap_save(map3, "images/domicilios.png", dpi = 300)
 
-map3 <- tm_shape(gwr.map) + 
+map4 <- tm_shape(gwr.map) + 
   tm_fill("automoveis",
           title="Automóveis",
           n = 5,
@@ -104,9 +111,9 @@ map3 <- tm_shape(gwr.map) +
   tm_layout(frame = FALSE,
             legend.text.size = 0.5,
             legend.title.size = 0.6)
-tmap_save(map3, "images/automoveis.png", dpi = 300)
+tmap_save(map4, "images/automoveis.png", dpi = 300)
 
-map4 <- tm_shape(gwr.map) + 
+map5 <- tm_shape(gwr.map) + 
   tm_fill("empregos",
           title="Empregos",
           n = 5,
@@ -115,6 +122,17 @@ map4 <- tm_shape(gwr.map) +
   tm_layout(frame = FALSE,
             legend.text.size = 0.5,
             legend.title.size = 0.6)
-tmap_save(map4, "images/empregos.png", dpi = 300)
+tmap_save(map5, "images/empregos.png", dpi = 300)
+
+map6 <- tm_shape(gwr.map) + 
+  tm_fill("empregos",
+          title="Empregos",
+          n = 5,
+          style = "quantile") +
+  tm_borders() +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+tmap_save(map6, "images/empregos.png", dpi = 300)
 
 
