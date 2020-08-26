@@ -1,4 +1,4 @@
-# Índice Árboreo da Cidade de São Paulo
+# Índice Arbóreo da Cidade de São Paulo
 Análise realizada para a live do mestrado em Cidades Inteligentes e Sustentáveis
 
 ## Variáveis
