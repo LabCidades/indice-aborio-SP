@@ -22,9 +22,11 @@ A técnica empregada é a regressão espacial, também chamada de regressão geo
 |Máx        |      0.93|         0.000051|   0.000013|   0.000065|  0.000002|
 |Global     |      0.35|        -0.000017|  -0.000001|  -0.000002| -0.000003|
 
-![indice_arboreo](images/massa_aborea.png){ width=50% }
-![r2_local](images/R2_local.png){ width=50% }
-![renda_per_cap](images/renda_per_cap.png){ width=50% }
-![domicilios](images/domicilios.png){ width=50% }
-![automoveis](images/automoveis.png){ width=50% }
-![empregos](images/empregos.png){ width=50% }
+---
+
+<img src="images/massa_aborea.png" alt="indice_arboreo" width="350"/>
+<img src="images/R2_local.png" alt="r2_local" width="350"/>
+<img src="images/renda_per_cap.png" alt="renda_per_cap" width="350"/>
+<img src="images/domicilios.png" alt="domicilios" width="350"/>
+<img src="images/automoveis.png" alt="automoveis" width="350"/>
+<img src="images/empregos.png" alt="empregos" width="350"/>
